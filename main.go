@@ -1,15 +1,30 @@
 package main
 
 import (
-	"fmt"
-	"gonum.org/v1/gonum/mat"
+		"gonum.org/v1/gonum/mat"
 	"math"
 	"math/rand"
 	"time"
-)
+	"os"
+	"log"
+	"encoding/csv"
+	"fmt"
+	)
 
 func main(){
-	fmt.Println("Hello")
+	f, err := os.Open("./train.csv")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer f.Close()
+
+	reader := csv.NewReader(f)
+	reader.FieldsPerRecord = 7
+	rawCSVData, err := reader.ReadAll()
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(rawCSVData)
 }
 
 type neuralNet struct {
